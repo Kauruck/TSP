@@ -7,13 +7,17 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class City {
+public class City implements  Iterable<Street>{
 
     private int x;
     private int y;
+
+    private List<Street> streets = new ArrayList<>();
 
     private String name;
 
@@ -54,7 +58,7 @@ public class City {
         return name;
     }
 
-    public double distance(City b){
+    public double distanceTo(City b){
         int dx = this.x - b.x;
         int dy = this.y - b.y;
 
@@ -62,10 +66,50 @@ public class City {
     }
 
 
-    public double distance(int x, int y){
+    public double distanceTo(int x, int y){
         int dx = this.x - x;
         int dy = this.y - y;
 
         return Math.sqrt(dx * dx + dy * dy);
     }
+
+    public void connectTo(City B){
+        Street connection = new Street(this, B);
+        this.streets.add(connection);
+        B.streets.add(connection);
+    }
+
+    @Override
+    public Iterator<Street> iterator() {
+        return new CityIterator(streets);
+    }
+
+    public int numberOfConnectedStreets(){
+        return streets.size();
+    }
+
+
+
 }
+class CityIterator implements Iterator<Street>{
+
+    int i = 0;
+    List<Street> allStreets = new ArrayList<>();
+
+    public CityIterator(List<Street> allStreets) {
+        this.allStreets = allStreets;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return i < allStreets.size() - 1;
+    }
+
+    @Override
+    public Street next() {
+        int tmpI = i;
+        i++;
+        return allStreets.get(tmpI);
+    }
+}
+

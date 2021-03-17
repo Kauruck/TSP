@@ -1,5 +1,6 @@
 package com.kauruck;
 
+import com.kauruck.AS.Colony;
 import com.kauruck.Backbone.City;
 import com.kauruck.UI.MainFrame;
 
@@ -9,6 +10,7 @@ import java.util.*;
 public class TSP {
 
     public static final int CITYRADIUS = 20;
+    public static final int ANTRADIUS = 30;
 
     public static MainFrame frame;
     public static Timer timer;
@@ -18,21 +20,21 @@ public class TSP {
     public static void main(String[] args){
         timer = new Timer("Updater");
         frame = new MainFrame();
-        timer.schedule(new UpdaterTask(), 100);
+        timer.schedule(new UpdaterTask(), 50);
         try {
             generateCities(10);
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println(Arrays.toString(cities.toArray()));
-
+        new Colony();
     }
 
     public static class UpdaterTask extends TimerTask{
 
         @Override
         public void run() {
-            timer.schedule(new UpdaterTask(), 100);
+            timer.schedule(new UpdaterTask(), 50);
             TSP.frame.repaint();
         }
     }
@@ -49,7 +51,11 @@ public class TSP {
                 y = r.nextInt(frame.getHeight());
                 j++;
             }
-            cities.add(new City(x,y));
+            City toAdd = new City(x,y);
+            for(City current : cities){
+                toAdd.connectTo(current);
+            }
+            cities.add(toAdd);
         }
     }
 
@@ -57,7 +63,7 @@ public class TSP {
         boolean canBePlaced = true;
         for (int i = 0; i < cities.size(); i++) {
             City current = cities.get(i);
-            if(current.distance(what) <= CITYRADIUS * 3)
+            if(current.distanceTo(what) <= CITYRADIUS * 3)
                 canBePlaced = false;
 
         }
@@ -69,7 +75,7 @@ public class TSP {
         boolean canBePlaced = true;
         for (int i = 0; i < cities.size(); i++) {
             City current = cities.get(i);
-            if(current.distance(x, y) <= CITYRADIUS * 3)
+            if(current.distanceTo(x, y) <= CITYRADIUS * 3)
                 canBePlaced = false;
 
         }
