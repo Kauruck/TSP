@@ -21,9 +21,11 @@ public class Colony {
     public List<Street> walkedStreets = new ArrayList<>();
 
     public Colony(){
-        for(City current : TSP.cities){
+        /*for(City current : TSP.cities){
             ants.add(new Ant(current));
-        }
+        }*/
+
+        ants.add(new Ant(TSP.cities.get(0)));
 
         instance = this;
     }
@@ -41,6 +43,12 @@ public class Colony {
 
         for(Street currentStreet : walkedStreets){
             currentStreet.setPheromone(currentStreet.getPheromone() + Q/ currentStreet.length());
+        }
+    }
+
+    public void renderUpdate(){
+        for(Ant current : ants){
+            current.renderMove();
         }
     }
 }

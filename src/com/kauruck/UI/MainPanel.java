@@ -36,7 +36,7 @@ public class MainPanel extends JPanel {
         if(Colony.instance != null) {
             for (int i = 0; i < Colony.instance.ants.size(); i++) {
                 Ant current = Colony.instance.ants.get(i);
-                g.drawOval(current.getCurrentCity().getX() - TSP.ANTRADIUS / 2, current.getCurrentCity().getY() - TSP.ANTRADIUS / 2, TSP.ANTRADIUS, TSP.ANTRADIUS);
+                g.drawOval(current.getX() - TSP.ANTRADIUS / 2, current.getY() - TSP.ANTRADIUS / 2, TSP.ANTRADIUS, TSP.ANTRADIUS);
             }
         }
 

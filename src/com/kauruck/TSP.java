@@ -12,6 +12,8 @@ public class TSP {
     public static final int CITYRADIUS = 20;
     public static final int ANTRADIUS = 30;
 
+    public static final int STEPS = 20;
+
     public static MainFrame frame;
     public static Timer timer;
 
@@ -35,6 +37,10 @@ public class TSP {
         @Override
         public void run() {
             timer.schedule(new UpdaterTask(), 50);
+            if(Colony.instance != null) {
+                Colony.instance.renderUpdate();
+                Colony.instance.round();
+            }
             TSP.frame.repaint();
         }
     }
