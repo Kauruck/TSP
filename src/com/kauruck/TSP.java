@@ -11,6 +11,7 @@ public class TSP {
 
     public static final int CITYRADIUS = 20;
     public static final int ANTRADIUS = 30;
+    public static final int SEARCHCAP = 20;
 
     public static final int STEPS = 20;
 
@@ -28,7 +29,7 @@ public class TSP {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(Arrays.toString(cities.toArray()));
+        System.out.println(cities.size());
         new Colony();
     }
 

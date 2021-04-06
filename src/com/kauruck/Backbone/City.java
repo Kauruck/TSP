@@ -46,6 +46,10 @@ public class City implements  Iterable<Street>{
                 '}';
     }
 
+    public Street getStreetTo(City other){
+        return new Street(this, other);
+    }
+
     public int getX() {
         return x;
     }

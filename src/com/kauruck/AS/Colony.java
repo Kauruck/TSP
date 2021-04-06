@@ -31,8 +31,11 @@ public class Colony {
     }
 
     public void round(){
-        for(Ant current : ants){
-            current.move();
+        for(int i = 0; i < ants.size(); i++){
+            Ant current = ants.get(i);
+            boolean res = current.move();
+            if(!res)
+                ants.remove(current);
         }
 
         for(City currentCity : TSP.cities){

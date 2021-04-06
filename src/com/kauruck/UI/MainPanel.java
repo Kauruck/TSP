@@ -3,7 +3,6 @@ package com.kauruck.UI;
 import com.kauruck.AS.Ant;
 import com.kauruck.AS.Colony;
 import com.kauruck.Backbone.City;
-import com.kauruck.Backbone.Street;
 import com.kauruck.TSP;
 
 import javax.swing.*;
@@ -17,13 +16,13 @@ public class MainPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         g.fillRect(0,0, this.getWidth(), this.getHeight());
         g.setColor(Color.GREEN);
-        for(int i = 0; i < TSP.cities.size(); i++){
+        /*for(int i = 0; i < TSP.cities.size(); i++){
             City currentCity = TSP.cities.get(i);
             for(Street currentStreet : currentCity){
                 if(currentStreet.getA() == currentCity)
                 g.drawLine(currentCity.getX(), currentCity.getY(), currentStreet.getB().getX(), currentStreet.getB().getY());
             }
-        }
+        }*/
 
         g.setColor(Color.red);
         for(int i = 0; i < TSP.cities.size(); i++){

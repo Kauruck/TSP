@@ -16,8 +16,6 @@ public class Ant {
     private int x;
     private int y;
 
-    private int currentSpeed = 1;
-
     private List<City> visited = new ArrayList<>();
 
     private int moveIteration = 1;
@@ -28,6 +26,7 @@ public class Ant {
         x = startCity.getX();
         y = startCity.getY();
         oldCity = currentCity;
+        System.out.println("Starting from: " + currentCity);
     }
 
 
@@ -53,30 +52,58 @@ public class Ant {
         Random r = new Random();
         double gate = r.nextDouble();
         double total = 0;
-        for (Street current : currentCity){
-            if(total >= gate)
+        for (City current : TSP.cities){
+            if(current == currentCity)
+                continue;
+            if (total >= gate && !visited.contains(current))
+                return current.getStreetTo(currentCity);
+            total += p(current.getStreetTo(currentCity));
+        }
+        City missing = getFirstMissing();
+        if(missing == null)
+            return null;
+        return getFirstMissing().getStreetTo(currentCity);
+    }
+
+    private City getFirstMissing(){
+        for(City current : TSP.cities){
+            if(!visited.contains(current) && current != currentCity)
                 return current;
-            total += p(current);
         }
         return null;
     }
 
-    public void move(){
+
+
+    public boolean move(){
         if(oldCity != currentCity)
-            return;
-        Street toMove = selectStreet();
-        if(toMove == null)
-            return;
-        visited.add(currentCity);
+            return true;
+
+        if(visited.size() == TSP.cities.size()) {
+            System.out.println("End: " + currentCity);
+            return false;
+        }
+        int i = 0;
+        City target = null;
+        Street toMove = null;
+        do {
+            toMove = selectStreet();
+            if(toMove == null)
+                continue;
+            target = toMove.getA() == currentCity ? toMove.getB() : toMove.getA();
+            i++;
+        }while (visited.contains(target) && i < TSP.SEARCHCAP);
+        if(toMove == null) {
+            System.out.println("End: " + currentCity);
+            return false;
+        }
+        if(!visited.contains(currentCity))
+            visited.add(currentCity);
         oldCity = currentCity;
-        if(currentCity == toMove.getA()) {
-            currentCity = toMove.getB();
-        }
-        else {
-            currentCity = toMove.getA();
-        }
+        currentCity = target;
         Colony.instance.walkedStreets.add(toMove);
-        System.out.println("Moved to: "  + currentCity);
+        System.out.println("Moved to: "  + currentCity + "(Visited: "  + visited.size() + " cities)");
+        return true;
     }
 
     public City getCurrentCity() {
@@ -88,7 +115,7 @@ public class Ant {
     public void renderMove(){
         if(oldCity != currentCity){
 
-            double k = (oldCity.distanceTo(currentCity)/ TSP.STEPS)/oldCity.distanceTo(currentCity);
+            double k = (oldCity.distanceTo(currentCity)/ TSP.STEPS)/oldCity.distanceTo(currentCity) * moveIteration;
             x = (int) (k * currentCity.getX() + (1 - k) * oldCity.getX());
             y = (int) (k * currentCity.getY() + (1 - k) * oldCity.getY());
 
