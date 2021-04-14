@@ -2,6 +2,7 @@ package com.kauruck;
 
 import com.kauruck.AS.Colony;
 import com.kauruck.Backbone.City;
+import com.kauruck.Backbone.Street;
 import com.kauruck.UI.MainFrame;
 
 import java.io.IOException;
@@ -31,6 +32,8 @@ public class TSP {
         }
         System.out.println(cities.size());
         new Colony();
+
+        //cities.forEach(Current -> System.out.println(Current.getName()));
     }
 
     public static class UpdaterTask extends TimerTask{

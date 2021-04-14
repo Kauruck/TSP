@@ -36,6 +36,10 @@ public class Ant {
         return (street.getPheromone() * Colony.ALPHA) * (1/(street.length()) * Colony.BETA);
     }
 
+    public List<City> getVisited() {
+        return visited;
+    }
+
     private double sum(){
         double out = 0;
         for(Street current : currentCity){
@@ -81,6 +85,7 @@ public class Ant {
 
         if(visited.size() == TSP.cities.size()) {
             System.out.println("End: " + currentCity);
+            visited.add(currentCity);
             return false;
         }
         int i = 0;
@@ -95,6 +100,7 @@ public class Ant {
         }while (visited.contains(target) && i < TSP.SEARCHCAP);
         if(toMove == null) {
             System.out.println("End: " + currentCity);
+            visited.add(currentCity);
             return false;
         }
         if(!visited.contains(currentCity))

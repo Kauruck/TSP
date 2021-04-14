@@ -47,7 +47,8 @@ public class City implements  Iterable<Street>{
     }
 
     public Street getStreetTo(City other){
-        return new Street(this, other);
+        Street out = streets.stream().filter(current -> current.getA() == other || current.getB() == other).findAny().orElse(null);
+        return out;
     }
 
     public int getX() {

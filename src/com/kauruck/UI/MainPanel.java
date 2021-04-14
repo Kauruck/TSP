@@ -3,10 +3,12 @@ package com.kauruck.UI;
 import com.kauruck.AS.Ant;
 import com.kauruck.AS.Colony;
 import com.kauruck.Backbone.City;
+import com.kauruck.Backbone.Street;
 import com.kauruck.TSP;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class MainPanel extends JPanel {
 
@@ -38,6 +40,28 @@ public class MainPanel extends JPanel {
                 g.drawOval(current.getX() - TSP.ANTRADIUS / 2, current.getY() - TSP.ANTRADIUS / 2, TSP.ANTRADIUS, TSP.ANTRADIUS);
             }
         }
+
+        g.setColor(Color.GREEN);
+        if(Colony.instance != null && Colony.instance.bestWay != null) {
+                List<City> way = Colony.instance.bestWay;
+                for(int j = 0; j < way.size(); j ++){
+                    City currentCity = way.get(j);
+                    City next;
+                    if(j < way.size() - 1){
+                        next = way.get(j + 1);
+                    }
+                    else{
+                        next = way.get(0);
+                    }
+
+                    g.drawLine(currentCity.getX(), currentCity.getY(), next.getX(), next.getY());
+                }
+
+            g.drawString("Best: " + Colony.instance.lengthOfWay(Colony.instance.bestWay), 20, 20);
+        }
+
+
+
 
         g.setColor(Color.YELLOW);
         g.drawString("City names from https://simplemaps.com/data/world-cities as of 12.03.2021",0,this.getHeight() - 20);
